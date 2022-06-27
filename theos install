@@ -1,0 +1,8 @@
+1.简介
+Theos最初是“iphone-framework", 这是一个主要用于越狱的IOS设备上旨在简化命令行构建代码的项目。后来它发生了重大比那户，成为Theos, 一个灵活的基于Make的构建系统，针对于越狱开发，但也完全支持为各种其他平台构建。Theos可以在Mac、IOS、Linux和Windows上运行，并且可以构建项目。
+Theos是一个越狱开发工具包，由iOS越狱界知名人士 Dustin Howett 开发并分享到 GitHub 上。Theos 与其他越狱开发工具相比，最大特点就是简单：下载安装简单、Logos语法简单、编译发布简单，可以让使用者将精力都放在开发工作上去。
+
+
+1. theos的安装
+
+https://theos.dev/docs/installation-ios
