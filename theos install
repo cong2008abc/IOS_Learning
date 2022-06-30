@@ -2,7 +2,79 @@
 Theos最初是“iphone-framework", 这是一个主要用于越狱的IOS设备上旨在简化命令行构建代码的项目。后来它发生了重大比那户，成为Theos, 一个灵活的基于Make的构建系统，针对于越狱开发，但也完全支持为各种其他平台构建。Theos可以在Mac、IOS、Linux和Windows上运行，并且可以构建项目。
 Theos是一个越狱开发工具包，由iOS越狱界知名人士 Dustin Howett 开发并分享到 GitHub 上。Theos 与其他越狱开发工具相比，最大特点就是简单：下载安装简单、Logos语法简单、编译发布简单，可以让使用者将精力都放在开发工作上去。
 
+2. theos的安装
+https://theos.dev/docs/installation
+我是按照官网的安装来的：
+a. 安装前置软件
+brew install ldid xz
 
-1. theos的安装
+b.保存环境变量
+这些环境变量保存着执行的目录以及最后要推送到目的手机
+echo "export THEOS=~/theos" >> ~/.zprofile
+echo "export THEOS_DEVICE_IP=localhost" >> ~/.zprofile
+echo "export THEOS_DEVICE_IP=2222" >> ~/.zprofile
+source ~/.zprofile
+注意：mac最新的shell(echo $SHELL)从之前 sh变成了zsh;  因此配置文件会有所变化
+我在对应的几个文件里(~/.profile 和~/.zprofile，因为我的之前没有zprofile这个文件，因此新创建的文件)都加了这些环境变量配置,执行完都需要source一下
 
-https://theos.dev/docs/installation-ios
+c.下载theOs, 输入前最好echo $THEOS,确保和前面配置的环境变量的路径一致
+git clone --recursive https://github.com/theos/theos.git $THEOS
+这一步可能会由于网络或者代码服务器不稳定等因素下载失败，确保最后都下载成功了，最后看到一堆的checkout那应该是成功了，如果失败的话，会显示失败信息；
+
+d.获取 Toolchain：
+Xcode 包含 Toolchain
+
+d.下载SDK
+  curl -LO https://github.com/theos/sdks/archive/master.zip
+ TMP=$(mktemp -d)
+ unzip master.zip -d $TMP
+ mv $TMP/sdks-master/*.sdk $THEOS/sdks
+ rm -r master.zip $TMP
+
+3.创建tweak工程
+ a.cd到一个你想创建工程的目录下
+➜  ~ $THEOS/bin/nic.pl
+NIC 2.0 - New Instance Creator
+------------------------------
+  [1.] iphone/activator_event
+  [2.] iphone/activator_listener
+  [3.] iphone/application_modern
+  [4.] iphone/application_swift
+  [5.] iphone/control_center_module-11up
+  [6.] iphone/cydget
+  [7.] iphone/flipswitch_switch
+  [8.] iphone/framework
+  [9.] iphone/library
+  [10.] iphone/notification_center_widget
+  [11.] iphone/notification_center_widget-7up
+  [12.] iphone/preference_bundle
+  [13.] iphone/preference_bundle_swift
+  [14.] iphone/theme
+  [15.] iphone/tool
+  [16.] iphone/tool_swift
+  [17.] iphone/tweak
+  [18.] iphone/tweak_with_simple_preferences
+  [19.] iphone/xpc_service
+  [20.] iphone/xpc_service_modern
+Choose a Template (required): 17
+Project Name (required): test  
+Package Name [com.yourcompany.test]: dev.cc.test 
+Author/Maintainer Name [perf]: cc
+[iphone/tweak] MobileSubstrate Bundle filter [com.apple.springboard]:          
+[iphone/tweak] List of applications to terminate upon installation (space-separated, '-' for none) [SpringBoard]: 
+Instantiating iphone/tweak in test/...
+Done.
+
+这样就创建成功一个tweak目录
+Tweak.x：源码文件，后缀决定其使用的语言，x使用Objective-C编写、xm使用， 后缀不要随意改变
+make clean
+make
+make package
+make install
+make package install (上面两步统一成一步)
+
+参考链接：
+https://blog.csdn.net/Airths/article/details/120713820
+ 
+https://segmentfault.com/a/1190000040194591
+ 
